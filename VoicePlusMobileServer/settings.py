@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = ')=fn9amo#y17)h(e2c-d-mkegifjaximti-=2tw=elcj%0@yc1'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://voice-plus-mobile.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
