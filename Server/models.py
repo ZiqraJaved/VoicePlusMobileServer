@@ -1,3 +1,6 @@
+from datetime import datetime
+
+import django
 from django.db import models
 
 
@@ -5,7 +8,13 @@ from django.db import models
 class UserModel(models.Model):
     user_name = models.CharField(max_length=20, unique=True, db_index=True, null=False)
     user_password = models.CharField(max_length=20, null=False)
-    user_role = models.CharField(default='operator', max_length=20, null=False)
+    user_real_name = models.CharField(max_length=100, null=False)
+    user_address =  models.CharField(max_length=255, null=False)
+    user_phone_number =  models.CharField(max_length=13, null=False)
+    image = models.ImageField(upload_to='uploads/', verbose_name='image')
+
+    user_role = models.CharField(default='consumer', max_length=11, null=False)
+    created_at = models.DateTimeField(default=django.utils.timezone.now)
 
     class Meta:
         db_table = 'tbl_login_user'

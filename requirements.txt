@@ -3,3 +3,4 @@ gunicorn
 whitenoise==2.0.6
 psycopg2
 drf-yasg
+Pillow

@@ -14,11 +14,13 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework import routers
 
 from Server import views
+from VoicePlusMobileServer import settings
 
 router = routers.DefaultRouter()
 router.register(r'pricing', views.PricingViewSet)
@@ -29,3 +31,4 @@ urlpatterns = [
     path('', include(router.urls)),
 
 ]
+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
