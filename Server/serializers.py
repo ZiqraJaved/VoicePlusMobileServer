@@ -1,6 +1,16 @@
 from rest_framework import serializers
 
-from Server.models import PricingModel
+from Server.models import PricingModel, UserModel
+
+
+class UserRegistrationSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = UserModel
+        fields = ['user_name', 'user_password', 'user_real_name', 'user_address', 'user_phone_number', 'image']
+
+    def create(self, validated_data):
+        return UserModel.objects.create(**validated_data)
+
 
 
 class PricingSerializer(serializers.HyperlinkedModelSerializer):
