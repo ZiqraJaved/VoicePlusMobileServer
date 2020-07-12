@@ -2,3 +2,4 @@ Django~=3.0.8
 gunicorn
 whitenoise
 psycopg2
+drf-yasg
