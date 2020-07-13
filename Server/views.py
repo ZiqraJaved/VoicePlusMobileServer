@@ -40,15 +40,28 @@ def login_user_account(request):
             try:
                 user_record = UserModel.objects.get(user_name=user_name, user_password=user_password)
                 return_information = {
+                    "detail":"",
                     "user_account_id": user_record.id,
                     "user_account_name": user_record.user_real_name,
                     "user_name": user_record.user_name
                 }
                 return Response(return_information, status=status.HTTP_200_OK)
             except Exception:
-                return Response({"detail": "Invalid user name or password"}, status=status.HTTP_404_NOT_FOUND)
+                return_information = {
+                    "detail": "User not found. Please register your account.",
+                    "user_account_id": 0,
+                    "user_account_name": "",
+                    "user_name": ""
+                }
+                return Response(return_information, status=status.HTTP_200_OK)
         except Exception as e:
-            return Response(e, status=status.HTTP_404_NOT_FOUND)
+            return_information = {
+                "detail": "User not found.Please register your account.",
+                "user_account_id": 0,
+                "user_account_name": "",
+                "user_name": ""
+            }
+            return Response(return_information, status=status.HTTP_200_OK)
 
     except Exception as e:
         print(e)
