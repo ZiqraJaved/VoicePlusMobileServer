@@ -6,11 +6,11 @@ from django.db import models
 
 # Create your models here.
 class UserModel(models.Model):
-    user_name = models.CharField(max_length=20, unique=True, db_index=True, null=False)
+    user_phone_number = models.CharField(max_length=13, unique=True, null=False)
+
     user_password = models.CharField(max_length=20, null=False)
     user_real_name = models.CharField(max_length=100, null=False)
     user_address =  models.CharField(max_length=255, null=False)
-    user_phone_number =  models.CharField(max_length=13, null=False)
     image = models.ImageField(upload_to='uploads/', verbose_name='image', null=True)
 
     user_role = models.CharField(default='consumer', max_length=11, null=False)
@@ -20,7 +20,7 @@ class UserModel(models.Model):
         db_table = 'tbl_login_user'
 
     def __str__(self):
-        return self.user_name
+        return self.user_real_name
 
 
 class PricingModel(models.Model):
