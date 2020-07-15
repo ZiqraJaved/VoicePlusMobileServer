@@ -157,19 +157,31 @@ def update_user_account(request):
         # image = request.data["user_address"]
         user_role = "consumer"
         try:
+            try:
+                account = UserModel.objects.filter(id=user_account_id)
+                if not account:
+                    information = {
+                        "detail": "Invalid information passed. Please try again."
+                    }
+                    return Response(information, status=status.HTTP_200_OK)
+            except:
+                pass
             UserModel.objects.filter(id=user_account_id).update(
                 user_real_name=user_real_name,
                 user_address=user_address,
                 user_password=user_password,
             )
-            infrmation = {
+            information = {
                 "detail": "Updated Successful"
             }
-            return Response(infrmation, status=status.HTTP_200_OK)
+            return Response(information, status=status.HTTP_200_OK)
 
         except Exception as e:
             print(e)
 
     except Exception as e:
         print(e)
-    return Response("Failed to create account.", status=status.HTTP_200_OK)
+    information = {
+        "detail": "Failed to update Account"
+    }
+    return Response(information, status=status.HTTP_200_OK)
