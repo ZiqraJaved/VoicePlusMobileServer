@@ -10,7 +10,7 @@ class UserModel(models.Model):
 
     user_password = models.CharField(max_length=20, null=False)
     user_real_name = models.CharField(max_length=100, null=False)
-    user_address =  models.CharField(max_length=255, null=False)
+    user_address = models.CharField(max_length=255, null=False)
     image = models.ImageField(upload_to='uploads/', verbose_name='image', null=True)
 
     user_role = models.CharField(default='consumer', max_length=11, null=False)

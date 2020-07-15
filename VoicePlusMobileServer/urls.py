@@ -20,7 +20,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from Server import views
-from Server.views import login_user_account
+from Server.views import login_user_account, register_user_account, update_user_account
 from VoicePlusMobileServer import settings
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -50,6 +50,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
     url(r'api/login_user', login_user_account, name="login_user"),
+    url(r'api/register_user', register_user_account, name="register_user"),
+    url(r'api/update_user', update_user_account, name="update_user_account"),
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     url(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     url(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

@@ -1,7 +1,10 @@
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
 from rest_framework.response import Response
 
 from Server.models import PricingModel, UserModel
@@ -34,8 +37,6 @@ def login_user_account(request):
     try:
         user_phone_number = request.data["user_phone_number"]
         user_password = request.data["user_password"]
-        print(request.data)
-
         try:
             try:
                 user_record = UserModel.objects.get(user_phone_number=user_phone_number, user_password=user_password)
@@ -89,3 +90,77 @@ def login_user_account(request):
             "created_at": ""
         }
         return Response(return_information, status=status.HTTP_200_OK)
+
+
+@swagger_auto_schema(method='post', request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'user_phone_number': openapi.Schema(type=openapi.TYPE_STRING, description='string'),
+        'user_password': openapi.Schema(type=openapi.TYPE_STRING, description='string'),
+        'user_real_name': openapi.Schema(type=openapi.TYPE_STRING, description='string'),
+        'user_address': openapi.Schema(type=openapi.TYPE_STRING, description='string'),
+
+    }
+))
+@api_view(['POST'])
+def register_user_account(request):
+    try:
+        user_phone_number = request.data["user_phone_number"]
+        user_password = request.data["user_password"]
+        user_real_name = request.data["user_real_name"]
+        user_address = request.data["user_address"]
+        # image = request.data["user_address"]
+        user_role = "consumer"
+        try:
+            user_account = UserModel.objects.create(
+                user_phone_number=user_phone_number,
+                user_password=user_password,
+                user_real_name=user_real_name,
+                user_address=user_address,
+                user_role=user_role,
+            )
+            print(user_account.id)
+            return Response(user_account.user_real_name, status=status.HTTP_200_OK)
+
+        except Exception as e:
+            print(e)
+
+    except Exception as e:
+        print(e)
+    return Response("Failed to create account.", status=status.HTTP_200_OK)
+
+
+@swagger_auto_schema(method='post', request_body=openapi.Schema(
+    type=openapi.TYPE_OBJECT,
+    properties={
+        'user_account_id': openapi.Schema(type=openapi.TYPE_STRING, description='number'),
+        'user_password': openapi.Schema(type=openapi.TYPE_STRING, description='string'),
+        'user_real_name': openapi.Schema(type=openapi.TYPE_STRING, description='string'),
+        'user_address': openapi.Schema(type=openapi.TYPE_STRING, description='string'),
+
+    }
+))
+@api_view(['POST'])
+def update_user_account(request):
+    try:
+        user_account_id = request.data["user_account_id"]
+        # user_phone_number = request.data["user_phone_number"]
+        user_password = request.data["user_password"]
+        user_real_name = request.data["user_real_name"]
+        user_address = request.data["user_address"]
+        # image = request.data["user_address"]
+        user_role = "consumer"
+        try:
+            UserModel.objects.filter(id=user_account_id).update(
+                user_real_name=user_real_name,
+                user_address=user_address,
+                user_password=user_password,
+            )
+            return Response("Updated Successful", status=status.HTTP_200_OK)
+
+        except Exception as e:
+            print(e)
+
+    except Exception as e:
+        print(e)
+    return Response("Failed to create account.", status=status.HTTP_200_OK)
