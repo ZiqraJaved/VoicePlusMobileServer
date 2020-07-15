@@ -119,15 +119,21 @@ def register_user_account(request):
                 user_address=user_address,
                 user_role=user_role,
             )
-            print(user_account.id)
-            return Response(user_account.user_real_name, status=status.HTTP_200_OK)
+
+            information = {
+                "detail": "Account Created Successfully"
+            }
+            return Response(information, status=status.HTTP_200_OK)
 
         except Exception as e:
             print(e)
 
     except Exception as e:
         print(e)
-    return Response("Failed to create account.", status=status.HTTP_200_OK)
+    information = {
+        "detail": "Failed to create Account."
+    }
+    return Response(information, status=status.HTTP_200_OK)
 
 
 @swagger_auto_schema(method='post', request_body=openapi.Schema(
@@ -156,7 +162,10 @@ def update_user_account(request):
                 user_address=user_address,
                 user_password=user_password,
             )
-            return Response("Updated Successful", status=status.HTTP_200_OK)
+            infrmation = {
+                "detail": "Updated Successful"
+            }
+            return Response(infrmation, status=status.HTTP_200_OK)
 
         except Exception as e:
             print(e)
