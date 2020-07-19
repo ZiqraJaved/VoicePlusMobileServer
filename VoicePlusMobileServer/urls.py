@@ -30,7 +30,6 @@ router = routers.DefaultRouter()
 router.register(r'pricing', views.PricingViewSet)
 router.register(r'user_register', views.UserRegistrationViewSet)
 
-
 schema_view = get_schema_view(
     openapi.Info(
         title="Voice Plus Mobile Services API",
@@ -49,6 +48,8 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include(router.urls)),
+    path('api/repair_orders/', views.RepairOrderList.as_view()),
+    path('api/repair_order/<int:pk>/', views.RepairOrderDetail.as_view()),
     url(r'api/login_user', login_user_account, name="login_user"),
     url(r'api/register_user', register_user_account, name="register_user"),
     url(r'api/update_user', update_user_account, name="update_user_account"),
@@ -58,3 +59,11 @@ urlpatterns = [
 
 ]
 static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.DEBUG:
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+    from django.conf.urls.static import static
+
+    urlpatterns += staticfiles_urlpatterns()
+    urlpatterns += static(
+        settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

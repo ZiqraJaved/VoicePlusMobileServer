@@ -36,3 +36,25 @@ class PricingModel(models.Model):
 
     def __str__(self):
         return self.mobile_company + " " + self.mobile_model + " " + self.repairing_part
+
+
+class RepairOrderModel(models.Model):
+    user_phone_number = models.ForeignKey(UserModel, to_field='user_phone_number', null=False, on_delete=models.CASCADE)
+    mobile_brand = models.CharField(max_length=50, null=False)
+    mobile_model = models.CharField(max_length=50, null=False)
+    mobile_fault = models.TextField(max_length=1000, null=True)
+    image = models.ImageField(upload_to='uploads/', verbose_name='image', null=True)
+
+    date_order_placed = models.DateTimeField(default=django.utils.timezone.now)
+    date_item_received = models.DateTimeField(null=True)
+    date_item_delivered = models.DateTimeField(null=True)
+
+    order_status = models.CharField(max_length=20, null=False, default="Pending")
+    has_repaired = models.BooleanField(default=False)
+
+    charges = models.IntegerField(null=True)
+
+    created_at = models.DateTimeField(default=django.utils.timezone.now)
+
+    class Meta:
+        db_table = "tbl_repair_order"
