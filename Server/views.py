@@ -6,8 +6,9 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from Server.models import PricingModel, UserModel, RepairOrderModel
-from Server.serializers import PricingSerializer, UserRegistrationSerializer, RepairOrderSerializer
+from Server.models import PricingModel, UserModel, RepairOrderModel, FeedbackModel, GalleryModel, PaymentModel
+from Server.serializers import PricingSerializer, UserRegistrationSerializer, RepairOrderSerializer, FeedbackSerializer, \
+    GallerySerializer, PaymentSerializer
 
 
 class PricingViewSet(viewsets.ModelViewSet):
@@ -245,6 +246,54 @@ class RepairOrderDetail(APIView):
         snippet = self.get_object(pk)
         snippet.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+class FeedbackList(APIView):
+
+    def get(self, request, format=None):
+        feedbacks = FeedbackModel.objects.all()
+        serializer = FeedbackSerializer(feedbacks, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = FeedbackSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class GalleryImage(APIView):
+
+    def get(self, request):
+        gallery = GalleryModel.objects.all()
+        serializer = GallerySerializer(gallery, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = GallerySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class PaymentList(APIView):
+    """
+    List all snippets, or create a new snippet.
+    """
+
+    def get(self, request, format=None):
+        payments = PaymentModel.objects.all()
+        serializer = PaymentSerializer(payments, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = PaymentSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 # @swagger_auto_schema(method='post', request_body=openapi.Schema(
 #     type=openapi.TYPE_OBJECT,

@@ -58,3 +58,34 @@ class RepairOrderModel(models.Model):
 
     class Meta:
         db_table = "tbl_repair_order"
+
+
+class FeedbackModel(models.Model):
+    user_phone_number = models.ForeignKey(UserModel, to_field='user_phone_number', null=False,
+                                          on_delete=models.CASCADE)
+    user_real_name = models.CharField(max_length=100, null=False)
+    user_feedback = models.TextField(max_length=3000, null=False, default=None)
+
+    created_at = models.DateTimeField(default=django.utils.timezone.now)
+
+    class Meta:
+        db_table = "tbl_feedback"
+
+
+class GalleryModel(models.Model):
+    gallery_image = models.ImageField(upload_to='uploads/', verbose_name='gallery_image', null=True)
+    mobile_company = models.CharField(max_length=50, default=None, null=False)
+    mobile_model = models.CharField(max_length=50, default=None, null=False)
+
+    class Meta:
+        db_table = "tbl_gallery"
+
+
+class PaymentModel(models.Model):
+    order_no = models.OneToOneField(RepairOrderModel, to_field='id',  null=False, on_delete=models.CASCADE)
+    payment_method = models.CharField(max_length=50, default=None, null=False)
+    payment_no = models.CharField(max_length=50, default=None, null=False)
+    amount_paid = models.CharField(max_length=50, default=None, null=False)
+
+    class Meta:
+        db_table = "tbl_payment"
