@@ -7,8 +7,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from Server.models import PricingModel, UserModel, RepairOrderModel, FeedbackModel, GalleryModel, PaymentModel
-from Server.serializers import PricingSerializer, UserRegistrationSerializer, RepairOrderSerializer, FeedbackSerializer, \
-    GallerySerializer, PaymentSerializer
+from Server.serializers import PricingSerializer, UserRegistrationSerializer, RepairOrderSerializer, FeedbackSerializer,GallerySerializer, PaymentSerializer
 
 
 class PricingViewSet(viewsets.ModelViewSet):
@@ -251,8 +250,8 @@ class RepairOrderDetail(APIView):
 class FeedbackList(APIView):
 
     def get(self, request, format=None):
-        feedbacks = FeedbackModel.objects.all()
-        serializer = FeedbackSerializer(feedbacks, many=True)
+        snippets = FeedbackModel.objects.all()
+        serializer = FeedbackSerializer(snippets, many=True)
         return Response(serializer.data)
 
     def post(self, request, format=None):
@@ -261,7 +260,6 @@ class FeedbackList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class GalleryImage(APIView):
 
