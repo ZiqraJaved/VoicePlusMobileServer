@@ -20,6 +20,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from Server import views
+from Server.view.pricing import add_new_pricing
 from Server.views import login_user_account, register_user_account, update_user_account
 from VoicePlusMobileServer import settings
 from rest_framework import permissions
@@ -39,7 +40,6 @@ schema_view = get_schema_view(
                     " avaible functionality.",
         terms_of_service="https://www.google.com/policies/terms/",
         contact=openapi.Contact(email="Ziqra.Javeed@gmail.com"),
-        license=openapi.License(name="BSD License"),
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
@@ -54,6 +54,8 @@ urlpatterns = [
     path('api/payment/', views.PaymentList.as_view()),
     path('api/repair_order/<int:pk>/', views.RepairOrderDetail.as_view()),
     url(r'api/login_user', login_user_account, name="login_user"),
+    url(r'api/pricing/add_new_item', add_new_pricing, name="add_new_item"),
+
     url(r'api/register_user', register_user_account, name="register_user"),
     url(r'api/update_user', update_user_account, name="update_user_account"),
     url(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

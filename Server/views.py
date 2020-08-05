@@ -7,7 +7,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from Server.models import PricingModel, UserModel, RepairOrderModel, FeedbackModel, GalleryModel, PaymentModel
-from Server.serializers import PricingSerializer, UserRegistrationSerializer, RepairOrderSerializer, FeedbackSerializer,GallerySerializer, PaymentSerializer
+from Server.serializers import PricingSerializer, UserRegistrationSerializer, RepairOrderSerializer, FeedbackSerializer, \
+    GallerySerializer, PaymentSerializer
 
 
 class PricingViewSet(viewsets.ModelViewSet):
@@ -200,10 +201,6 @@ class AdminRepairOrderViewSet(viewsets.ModelViewSet):
 
 
 class RepairOrderList(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
-
     def get(self, request, format=None):
         snippets = RepairOrderModel.objects.all()
         serializer = RepairOrderSerializer(snippets, many=True)
@@ -218,16 +215,14 @@ class RepairOrderList(APIView):
 
 
 class RepairOrderDetail(APIView):
-    """
-    Retrieve, update or delete a snippet instance.
-    """
-
+    @swagger_auto_schema(responses={200: RepairOrderSerializer(many=False)})
     def get_object(self, pk):
         try:
             return RepairOrderModel.objects.get(user_phone_number=pk)
         except RepairOrderModel.DoesNotExist:
             raise Http404
 
+    @swagger_auto_schema(responses={200: RepairOrderSerializer(many=True)})
     def get(self, request, pk, format=None):
         snippet = self.get_object(pk)
         serializer = RepairOrderSerializer(snippet)
@@ -248,18 +243,27 @@ class RepairOrderDetail(APIView):
 
 
 class FeedbackList(APIView):
-
+    @swagger_auto_schema(responses={200: FeedbackSerializer(many=True)})
     def get(self, request, format=None):
         snippets = FeedbackModel.objects.all()
         serializer = FeedbackSerializer(snippets, many=True)
         return Response(serializer.data)
 
+    @swagger_auto_schema(operation_description="description", request_body=openapi.Schema(
+        type=openapi.TYPE_OBJECT,
+        properties={
+            'user_phone_number': openapi.Schema(type=openapi.TYPE_STRING, description='number'),
+            'user_real_name': openapi.Schema(type=openapi.TYPE_STRING, description='string'),
+            'user_feedback': openapi.Schema(type=openapi.TYPE_STRING, description='string'),
+        }
+    ))
     def post(self, request, format=None):
         serializer = FeedbackSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class GalleryImage(APIView):
 
@@ -277,10 +281,6 @@ class GalleryImage(APIView):
 
 
 class PaymentList(APIView):
-    """
-    List all snippets, or create a new snippet.
-    """
-
     def get(self, request, format=None):
         payments = PaymentModel.objects.all()
         serializer = PaymentSerializer(payments, many=True)
@@ -292,6 +292,10 @@ class PaymentList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+
+
 
 # @swagger_auto_schema(method='post', request_body=openapi.Schema(
 #     type=openapi.TYPE_OBJECT,
