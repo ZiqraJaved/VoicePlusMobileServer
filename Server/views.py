@@ -1,4 +1,5 @@
 from django.http import Http404
+from django.shortcuts import render
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import viewsets, status
@@ -9,6 +10,11 @@ from rest_framework.views import APIView
 from Server.models import PricingModel, UserModel, RepairOrderModel, FeedbackModel, GalleryModel, PaymentModel
 from Server.serializers import PricingSerializer, UserRegistrationSerializer, RepairOrderSerializer, FeedbackSerializer, \
     GallerySerializer, PaymentSerializer
+
+
+def home_page(request):
+    return render(request, 'home.html'
+                           '')
 
 
 class PricingViewSet(viewsets.ModelViewSet):
@@ -292,10 +298,6 @@ class PaymentList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-
-
-
 
 # @swagger_auto_schema(method='post', request_body=openapi.Schema(
 #     type=openapi.TYPE_OBJECT,

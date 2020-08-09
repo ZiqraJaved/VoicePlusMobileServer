@@ -4,143 +4,129 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <style>
-        :root {
-            --color-green: #00ff95;
-            --color-deep-blue: #09009f;
-            --color-teal: #2afebf;
-            --color-blue: #21d4fd;
-            --color-pink: #ff5acd;
-            --color-light-blue: #90dffb;
-            --color-dark-blue: #328bc1;
-            --color-yellow: #ecd400;
-            --color-light-red: #ff6565;
-            --gradient-1: linear-gradient(
-                    45deg,
-                    var(--color-light-blue),
-                    var(--color-dark-blue)
-            );
-            --gradient-2: linear-gradient(45deg, var(--color-blue), var(--color-teal));
-            --gradient-3: linear-gradient(45deg, var(--color-yellow), var(--color-pink));
-            --gradient-4: linear-gradient(45deg, #40e0d0, #fbd786, #f7797d);
-            --gradient-5: linear-gradient(45deg, #d31027, #ea384d);
-            --gradient-6: linear-gradient(to right, #ec008c, #fc6767);
+        body {
+            background: linear-gradient(253deg, #0cc898, #1797d2, #864fe1);
+            background-size: 300% 300%;
+            -webkit-animation: Background 25s ease infinite;
+            -moz-animation: Background 25s ease infinite;
+            animation: Background 25s ease infinite;
         }
 
-        .wrapper {
-            position: relative;
+        @-webkit-keyframes Background {
+            0% {
+                background-position: 0% 50%
+            }
+            50% {
+                background-position: 100% 50%
+            }
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
+        @-moz-keyframes Background {
+            0% {
+                background-position: 0% 50%
+            }
+            50% {
+                background-position: 100% 50%
+            }
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
+        @keyframes Background {
+            0% {
+                background-position: 0% 50%
+            }
+            50% {
+                background-position: 100% 50%
+            }
+            100% {
+                background-position: 0% 50%
+            }
+        }
+
+        .full-screen {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: url(https://i.imgur.com/wCG2csZ.png);
+            background-size: cover;
+            background-position: center;
             width: 100%;
-            height: 100vh;
-            background: var(--gradient-6);
+            height: 100%;
+            display: -webkit-flex;
             display: flex;
-            justify-content: center;
+            -webkit-flex-direction: column
+            /* works with row or column */
+
+            flex-direction: column;
+            -webkit-align-items: center;
             align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            text-align: center;
         }
 
-        .wrapper .text {
-            position: absolute;
-            width: 50px;
-            height: 50px;
-            background: #fff;
-            border-radius: 99px;
-            transform-origin: bottom;
-            opacity: 0;
-            box-shadow: 0 0px 15px 0 rgba(0, 0, 0, 0.15);
+        h1 {
+            color: #fff;
+            font-family: 'Open Sans', sans-serif;
+            font-weight: 800;
+            font-size: 4em;
+            letter-spacing: -2px;
+            text-align: center;
+            text-shadow: 1px 2px 1px rgba(0, 0, 0, .6);
         }
 
+        h1:after {
+            display: block;
+            color: #fff;
+            letter-spacing: 1px;
+            font-family: 'Poiret One', sans-serif;
+            content: 'Mobile Repairing Service';
+            font-size: .4em;
+            text-align: center;
+        }
+
+        .button-line {
+            font-family: 'Open Sans', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            background: transparent;
+            border: 1px solid #fff;
+            color: #fff;
+            text-align: center;
+            font-size: 1.4em;
+            opacity: .8;
+            padding: 20px 40px;
+            text-decoration: none;
+            transition: all .5s ease;
+            margin: 0 auto;
+            display: block;
+            width: 100px;
+        }
+
+        .button-line:hover {
+            opacity: 1;
+        }
     </style>
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
 
-    <script>
-        let lineOne, lineTwo, lineThree, lineFour, lineFive;
-        lineOne = document.querySelector(".text-1");
-        lineTwo = document.querySelector(".text-2");
-        lineThree = document.querySelector(".text-3");
-        lineFour = document.querySelector(".text-4");
-        lineFive = document.querySelector(".text-5");
 
-        let tl = anime.timeline({
-            delay: 0,
-            easing: "easeOutExpo",
-            direction: "alternate",
-            loop: true
-        });
-
-        tl.add(
-            {
-                duration: 700,
-                targets: lineOne,
-                translateX: -75,
-                opacity: 0
-            },
-            400
-        );
-
-        tl.add({
-            duration: 700,
-            targets: lineOne,
-            height: 175,
-            opacity: 1
-        });
-        tl.add(
-            {
-                duration: 100,
-                targets: lineTwo,
-                translateX: -75,
-                opacity: 0
-            },
-            "+=500"
-        );
-        tl.add({
-            duration: 700,
-            targets: lineTwo,
-            width: 150,
-            opacity: 1
-        });
-        tl.add({
-            duration: 700,
-            targets: lineThree,
-            height: 200,
-            opacity: 1
-        });
-        tl.add({
-            duration: 100,
-            targets: lineFour,
-            translateX: 75,
-            opacity: 0
-        });
-        tl.add({
-            duration: 700,
-            translateY: 45,
-            translateX: 75,
-            targets: lineFour,
-            height: 100,
-            opacity: 1
-        });
-        tl.add({
-            duration: 100,
-            targets: lineFive,
-            translateX: 75,
-            opacity: 0
-        });
-        tl.add({
-            duration: 700,
-            targets: lineFive,
-            translateX: 75,
-            translateY: -60,
-            opacity: 1
-        });
-
-    </script>
 </head>
 <body>
-<div class="wrapper">
-    <div class="text text-1"></div>
-    <div class="text text-2"></div>
-    <div class="text text-3"></div>
-    <div class="text text-4"></div>
-    <div class="text text-5"></div>
+<div class="full-screen">
+    <div>
+        <h1>Voice Plus Web Server API End Point</h1>
+        <br>
+        <a class="button-line" href="https://voice-plus-mobile.herokuapp.com/swagger/">APIs</a>
+    </div>
 </div>
 </body>
 </html>
