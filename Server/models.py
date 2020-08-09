@@ -7,7 +7,6 @@ from django.db import models
 # Create your models here.
 class UserModel(models.Model):
     user_phone_number = models.CharField(max_length=13, unique=True, null=False)
-
     user_password = models.CharField(max_length=20, null=False)
     user_real_name = models.CharField(max_length=100, null=False)
     user_address = models.CharField(max_length=255, null=False)
@@ -43,8 +42,11 @@ class RepairOrderModel(models.Model):
     mobile_brand = models.CharField(max_length=50, null=False)
     mobile_model = models.CharField(max_length=50, null=False)
     mobile_fault = models.TextField(max_length=1000, null=True)
+    repairing_description = models.TextField(max_length=1000, null=True, default=None)
     image = models.ImageField(upload_to='uploads/', verbose_name='image', null=True)
-
+    user_password = models.CharField(max_length=20, null=True)
+    user_real_name = models.CharField(max_length=100, null=True)
+    user_address = models.CharField(max_length=255, null=True)
     date_order_placed = models.DateTimeField(default=django.utils.timezone.now)
     date_item_received = models.DateTimeField(null=True)
     date_item_delivered = models.DateTimeField(null=True)
