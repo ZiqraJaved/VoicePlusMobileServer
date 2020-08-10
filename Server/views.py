@@ -1,7 +1,7 @@
 from django.http import Http404
 from django.shortcuts import render
 from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
+from drf_yasg.utils import swagger_auto_schema, swagger_serializer_method
 from rest_framework import viewsets, status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
@@ -21,6 +21,8 @@ class PricingViewSet(viewsets.ModelViewSet):
     http_method_names = ['get']
 
     queryset = PricingModel.objects.all().order_by('id')
+    for obj in queryset:
+        print(obj.id)
     serializer_class = PricingSerializer
 
 
@@ -239,6 +241,8 @@ class RepairOrderDetail(APIView):
 
     def put(self, request, pk, format=None):
         snippet = self.get_object(pk)
+        print(request.data)
+        print(snippet)
         serializer = RepairOrderSerializer(snippet, data=request.data)
         if serializer.is_valid():
             serializer.save()

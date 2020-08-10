@@ -20,7 +20,7 @@ from django.urls import path, include
 from rest_framework import routers
 
 from Server import views
-from Server.view.pricing import add_new_pricing
+from Server.view.pricing import add_new_pricing, pricing_detail
 from Server.views import login_user_account, register_user_account, update_user_account, home_page
 from VoicePlusMobileServer import settings
 from rest_framework import permissions
@@ -55,7 +55,8 @@ urlpatterns = [
     path('api/payment/', views.PaymentList.as_view()),
     path('api/repair_order/<int:pk>/', views.RepairOrderDetail.as_view()),
     url(r'api/login_user', login_user_account, name="login_user"),
-    url(r'api/pricing/add_new_item', add_new_pricing, name="add_new_item"),
+    url(r'api/pricing/add_new_item', add_new_pricing, name="adsd_new_item"),
+    url(r'api/pricing/(?P<pk>[0-9]+)$', pricing_detail),
     # url('', home_page, name="home_page"),
     path('', home_page, name="home_page"),
     url(r'api/register_user', register_user_account, name="register_user"),

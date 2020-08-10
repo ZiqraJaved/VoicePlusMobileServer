@@ -1,9 +1,13 @@
+from django.http import JsonResponse
 from drf_yasg import openapi
 from drf_yasg.openapi import Response
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.parsers import JSONParser
+
 from Server.models import PricingModel
+from Server.serializers import PricingSerializer
 
 
 @swagger_auto_schema(method='post', request_body=openapi.Schema(
@@ -49,3 +53,27 @@ def add_new_pricing(request):
         "detail": "Failed to add new item."
     }
     return Response(information, status=status.HTTP_200_OK)
+
+
+@api_view(['GET', 'PUT', 'DELETE'])
+def pricing_detail(request, pk):
+    try:
+        pricing = PricingModel.objects.get(pk=pk)
+    except PricingModel.DoesNotExist:
+        return JsonResponse({'detail': 'The Record does not exist'}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'GET':
+        pricing_serializer = PricingSerializer(pricing)
+        return JsonResponse(pricing_serializer.data)
+
+    elif request.method == 'PUT':
+        pricing_data = JSONParser().parse(request)
+        tutorial_serializer = PricingSerializer(pricing, data=pricing_data)
+        if tutorial_serializer.is_valid():
+            tutorial_serializer.save()
+            return JsonResponse(tutorial_serializer.data)
+        return JsonResponse(tutorial_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    elif request.method == 'DELETE':
+        pricing.delete()
+        return JsonResponse({'detail': 'Record was deleted successfully!'}, status=status.HTTP_204_NO_CONTENT)
