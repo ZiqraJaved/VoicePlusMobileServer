@@ -15,7 +15,7 @@ class UserRegistrationSerializer(serializers.HyperlinkedModelSerializer):
 class PricingSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = PricingModel
-        fields = ['mobile_company', 'mobile_model', 'repairing_part', 'repairing_price', 'repairing_description']
+        fields = ['id', 'mobile_company', 'mobile_model', 'repairing_part', 'repairing_price', 'repairing_description']
 
 
 class RepairOrderSerializer(serializers.HyperlinkedModelSerializer):
