@@ -213,10 +213,13 @@ class RepairOrderList(APIView):
         return Response(serializer.data)
 
     def post(self, request, format=None):
+        print("Request Data : \n" + request.data)
         serializer = RepairOrderSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        print("Failed to process request.\n" +
+              serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
